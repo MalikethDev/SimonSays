@@ -24,7 +24,7 @@ namespace SimonSaysProject
         /// </summary>
         public Game()
         {
-            commandProvider = new CommandProvider();
+            commandProvider = new CommandProvider(); // Initialize the command provider
             gameStats = new GameResult[10]; // Store last 10 game results
         }
 
@@ -70,22 +70,28 @@ namespace SimonSaysProject
 
             while (true)
             {
-                string pattern = // ////////// => TO IMPLEMENT <= //////////// //
+                // Generate a pattern for the current round
+                string pattern = commandProvider.GeneratePattern(round);
+
+                // Display the pattern to the user
                 AnsiConsole.Clear();
                 AnsiConsole.MarkupLine("[bold green]Simon Says Follow this" + 
                     " Pattern:[/]");
                 AnsiConsole.MarkupLine($"[italic yellow]{pattern}[/]");
 
+                // Ask the user to repeat the pattern
                 stopwatch.Start();
                 string userInput = AnsiConsole.Ask<string>("\n[bold cyan]Repeat"
                     + " the Pattern (use W, A, S, D):[/] ");
                 stopwatch.Stop();
 
-                bool isCorrect = // ////////// => TO IMPLEMENT <= //////////// //
+                // Check if the user input matches the pattern
+                bool isCorrect = userInput == pattern;
 
                 if (!isCorrect)
                 {
-                    double timeTaken = // ////////// => TO IMPLEMENT <= //////////// //
+                    // If the user input is incorrect, display the losing pattern
+                    double timeTaken = stopwatch.Elapsed.TotalSeconds;
 
                     AnsiConsole.MarkupLine("\n[bold red]You Lost![/]");
                     AnsiConsole.MarkupLine(
@@ -96,18 +102,18 @@ namespace SimonSaysProject
                     // Shift existing entries
                     for (int i = gameStats.Length - 1; i > 0; i--)
                     {
-                        // ////////// => TO IMPLEMENT <= //////////// //
+                        gameStats[i] = gameStats[i - 1];
                     }
 
                     // Add new result at the beginning
-                    gameStats[0] = // ////////// => TO IMPLEMENT <= //////////// //
+                    gameStats[0] = new GameResult(pattern, timeTaken, round);
 
                     AnsiConsole.Markup("\n[bold green]Press Enter to Return to"
                         + " the Menu...[/]");
                     Console.ReadLine();
                     break;
                 }
-
+                // If the user input is correct, increment the round
                 round++;
             }
         }
@@ -121,19 +127,16 @@ namespace SimonSaysProject
             table.AddColumn("Time Taken (s)");
             table.AddColumn("Losing Pattern");
 
+            // Display the last 10 game results
             for (int i = 0; i < gameStats.Length; i++)
             {
                 if (gameStats[i] != null)
                 {
-
-                    if (gameStats[i] == null)
-                    {
-                        // ////////// => TO IMPLEMENT <= //////////// //
-                    }
-
-                    // Add row to table
-                    // Table.AddRow() only accepts strings
-                    // ////////// => TO IMPLEMENT <= //////////// //
+                    table.AddRow(
+                        (i + 1).ToString(),
+                        gameStats[i].Round.ToString(),
+                        gameStats[i].TimeTaken.ToString("F2"),
+                        gameStats[i].LosingPattern);
                 }
             }
 

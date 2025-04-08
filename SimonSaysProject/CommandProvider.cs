@@ -20,7 +20,7 @@ namespace SimonSaysProject
         public CommandProvider()
         {
             commands = new char[] { 'W', 'A', 'S', 'D' };
-            // ////////// => TO IMPLEMENT <= //////////// //
+            random = new Random(); // Initialize the random number generator
         }
 
 
@@ -44,7 +44,16 @@ namespace SimonSaysProject
         /// </remarks>
         public string GeneratePattern(int round)
         {
-            // ////////// => TO IMPLEMENT <= //////////// //
+            string pattern = string.Empty; // Initialize an empty string to store the pattern
+
+            // Generate a random pattern of commands based on the round number
+            for (int i = 0; i < round; i++)
+            {
+                // Select a random command from the commands array
+                pattern += commands[random.Next(commands.Length)];
+            }
+
+            return pattern; // Return the generated pattern
         }
     }
 }
