@@ -24,7 +24,8 @@ namespace SimonSaysProject
         /// </summary>
         public Game()
         {
-            // ////////// => TO IMPLEMENT <= //////////// //
+            commandProvider = new CommandProvider();
+            gameStats = new GameResult[10]; // Store last 10 game results
         }
 
         /// <summary>
@@ -51,13 +52,13 @@ namespace SimonSaysProject
                 switch (choice)
                 {
                     case "Start Game":
-                        // ////////// => TO IMPLEMENT <= //////////// //
+                        StartGame(); // Start the game
                         break;
                     case "View Game Stats":
-                        // ////////// => TO IMPLEMENT <= //////////// //
+                        ShowGameStats(); // Show the game stats
                         break;
                     case "Quit":
-                        return;
+                        return; // Exit the game
                 }
             }
         }
